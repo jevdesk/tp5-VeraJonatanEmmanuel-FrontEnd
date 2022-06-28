@@ -1,0 +1,100 @@
+<div class="card-header text-white text-center bg-info">
+    <span class="i-paid"></span>
+    Coneversión de divisas
+
+</div>
+<div class="card-body bg-info shadow-lg">
+    <form [formGroup]="transaccionCtrol">
+        <div class="row">
+            <label>Ingrese su email para comenzar:</label>
+            <div class="input-group">
+                <span class="input-group-text">Email:</span>
+                <input type="text" formControlName="email" class="form-control" />
+                <div class="alert alert-danger col-12" *ngIf="email.invalid && (email.dirty || email.touched)">
+                    <div *ngIf="email.errors?.['required']">
+                        email es requerido
+                    </div>
+                </div>
+            </div>
+
+            <label>Cantidad:</label>
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" formControlName="cantidadOrigen" name="cantidadDestino" class="form-control">
+                <div class="alert alert-danger col-12"
+                    *ngIf="cantidadOrigen.invalid && (cantidadOrigen.dirty || cantidadOrigen.touched)">
+                    <div *ngIf="cantidadOrigen.errors?.['required']">
+                        Es requerido
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label>De</label>
+
+                <select class="form-control" formControlName="monedaOrigen" name="monedaOrigen">
+                    <option name="monedaOrigen">ARS</option>
+                    <option name="monedaOrigen">BRL</option>
+                    <option name="monedaOrigen">USD</option>
+
+                </select>
+                <div class="alert alert-danger col-12"
+                    *ngIf="monedaOrigen.invalid && (monedaOrigen.dirty || monedaOrigen.touched)">
+                    <div *ngIf="monedaOrigen.errors?.['required']">
+                        Es requerido
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label>A</label>
+
+                <!--<select class="form-control" [(ngModel)]="to" name="to">
+                    <option *ngFor="let i of data" name="to">{{i.currency_code}}</option>
+
+                </select>-->
+                <select class="form-control" formControlName="monedaDestino" name="monedaDestino">
+                    <option *ngIf="'ARS'!=transaccionCtrol.value.monedaOrigen" name="monedaDestino">ARS</option>
+                    <option *ngIf="'BRL'!=transaccionCtrol.value.monedaOrigen" name="monedaDestino">BRL</option>
+                    <option *ngIf="'USD'!=transaccionCtrol.value.monedaOrigen" name="monedaDestino">USD</option>
+                </select>
+                <div class="alert alert-danger col-12"
+                    *ngIf="monedaDestino.invalid && (monedaDestino.dirty || monedaDestino.touched)">
+                    <div *ngIf="monedaDestino.errors?.['required']">
+                        Es requerido
+                    </div>
+                </div>
+            </div>
+
+            <label>Tasa de conversión:</label>
+            <div class="input-group">
+                <span class="input-group-text">tasa:</span>
+                <input type="number" formControlName="tasaConversion" class="form-control">
+                <div class="alert alert-danger col-12"
+                    *ngIf="tasaConversion.invalid && (tasaConversion.dirty || tasaConversion.touched)">
+                    <div *ngIf="tasaConversion.errors?.['required']">
+                        Es requerido
+                    </div>
+                </div>
+            </div>
+
+
+
+            <label>Son:</label>
+            <div class="input-group">
+
+                <span class=" input-group-text">$</span>
+                <label class="form-control">{{transaccion.cantidadDestino}}</label>
+
+
+            </div>
+
+            <div class="d-grid">
+                <button (click)="convertir()" [disabled]="!transaccionCtrol.valid"
+                    class="text-white btn btn-warning text-b"><strong><span class="i-check"></span>
+                        Consultar</strong></button>
+            </div>
+
+        </div>
+    </form>
+</div>

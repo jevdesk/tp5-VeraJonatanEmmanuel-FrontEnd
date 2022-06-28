@@ -1,0 +1,91 @@
+<main class="bg-dark">
+    <div class="row justify-content-center bg-dark me-0 ms-0">
+        <div class="col-12 col-lg-9 col-xl-7 p-4">
+            <div class="card">
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary" (click)="irLista()">Lista</button>
+                </div>
+                <div class="card-body p-4 p-md-5 ">
+                    <h3 class="mb-4 pb-2 text-center">Registra tu compra</h3>
+                    <form [formGroup]="pasajeCtrl" class="">
+                        <div class="row d-fex justify-content-center">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    <label class="form-label">Email</label>
+                                    <select class="form-select" aria-label="Default select example"
+                                        formControlName="emailPasajero">
+                                        <option name="emailPasajero" *ngFor="let item of personas">
+                                            {{item.email}}
+                                        </option>
+                                    </select>
+                                    <div class="alert alert-danger"
+                                        *ngIf="emailPasajero.invalid && (emailPasajero.dirty || emailPasajero.touched)">
+                                        <div *ngIf="emailPasajero.errors?.['required']">
+                                            email es requerido
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-fex justify-content-center">
+                            <div class="col-md-6 mb-4">
+                                <label class=" form-label" for="title-select">Categoría :
+                                </label>
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="categoriaPasajero">
+                                    <option name="categoriaPasajero" *ngFor="let item of categorialist">
+                                        {{item}}
+                                    </option>
+                                </select>
+                                <div class="alert alert-danger"
+                                    *ngIf="categoriaPasajero.invalid && (categoriaPasajero.touched)">
+                                    <div *ngIf="categoriaPasajero.errors?.['required']">
+                                        Campo requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-fex justify-content-center">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    <label class="form-label">Precio del Pasaje</label>
+                                    <input type="number" formControlName="precioPasaje" class="form-control" />
+                                    <div class="alert alert-danger"
+                                        *ngIf="precioPasaje.invalid && (precioPasaje.dirty || precioPasaje.touched)">
+                                        <div *ngIf="precioPasaje.errors?.['required']">
+                                            precio desde {{MINPRECIO|currency:'CAD':'symbol-narrow'}} a
+                                            {{MAXPRECIO|currency:'CAD':'symbol-narrow'}}
+                                        </div>
+                                        <div *ngIf="precioPasaje.errors?.['min']">
+                                            El mínimo precio es de: {{MINPRECIO|currency:'CAD':'symbol-narrow'}}
+                                        </div>
+                                        <div *ngIf="precioPasaje.errors?.['max']">
+                                            El máximo precio es de: {{MAXPRECIO|currency:'CAD':'symbol-narrow'}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div *ngIf="categoriaPasajero.valid &&precioPasaje.valid">
+                                    <label class="form-label" for="firstName">Descuento de
+                                        {{cuantoDescuento(pasajeCtrl.value.categoriaPasajero,pasajeCtrl.value.precioPasaje)}}
+                                        {{porcentaje}}%, total a
+                                        pagar:
+                                        {{descuento|currency:'CAD':'symbol-narrow'}}</label>
+                                </div>
+                                <div class="mt-4" *ngIf="accion=='new'">
+                                    <input class="btn btn-primary btn-lg" type="submit" value="Registrar compra"
+                                        (click)="guardarCachePasaje()" [disabled]="!pasajeCtrl.valid" />
+                                </div>
+                                <div class="mt-4" *ngIf="accion=='update'">
+                                    <input class="btn btn-primary btn-lg" type="submit" value="Actualizar compra"
+                                        (click)="actualizarPasaje()" [disabled]="!pasajeCtrl.valid" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>

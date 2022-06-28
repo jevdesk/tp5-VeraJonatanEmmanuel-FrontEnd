@@ -1,0 +1,83 @@
+<div class="row justify-content-center bg-dark me-0 ms-0">
+    <div class="col-12 col-lg-9 col-xl-7 p-4">
+        <div class="card">
+            <div class="card-body p-4 p-md-5">
+                <h3 class="mb-4 pb-2 text-center">Registrar un libro</h3>
+                <form [formGroup]="libroCtrol">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label">Título</label>
+                                <input type="text" class="form-control" formControlName="titulo" />
+                                <div class="alert alert-danger col-12"
+                                    *ngIf="titulo.invalid && (titulo.dirty || titulo.touched)">
+                                    <div *ngIf="titulo.errors?.['required']">
+                                        Es requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label">Descripción</label>
+                                <textarea type="text" class="form-control" formControlName="descripcion"></textarea>
+                                <div class="alert alert-danger col-12"
+                                    *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">
+                                    <div *ngIf="descripcion.errors?.['required']">
+                                        Es requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <app-filetobase64></app-filetobase64>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label">Destacado</label>
+                                <p>
+                                    <input formControlName="destacado" type="radio" name="destacado" value=true>
+                                    Verdadero
+                                    <input formControlName="destacado" type="radio" name="destacado" value=false>
+                                    Falso
+                                </p>
+                                <div class="alert alert-danger col-12"
+                                    *ngIf="destacado.invalid && (destacado.dirty || destacado.touched)">
+                                    <div *ngIf="destacado.errors?.['required']">
+                                        Es requerido
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label">Stock</label>
+                                <input type="number" class="form-control" formControlName="stock" />
+                                <div class="alert alert-danger col-12"
+                                    *ngIf="stock.invalid && (stock.dirty || stock.touched)">
+                                    <div *ngIf="stock.errors?.['required']">
+                                        Es requerido
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <input class="btn btn-primary btn-lg" type="submit" value="Registrar Libro"
+                                    (click)="guardarLibro()" [disabled]="!libroCtrol.valid" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary" (click)="librosDestacados()">Libros
+                    Destacados</button>
+            </div>
+        </div>
+    </div>
+</div>

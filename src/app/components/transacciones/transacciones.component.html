@@ -1,0 +1,124 @@
+<main class="bg-dark">
+    <div class="row container">
+        <div class="col-lg-8">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-center">
+                <div class="btn-group " role="group">
+                    <div *ngIf="accion!='todo'&&accion!='filtro'">
+                        <button type="button" class="btn btn-secondary me-3"
+                            (click)="buscarTransacciones()">Todos</button>
+                    </div>
+                    <div *ngIf="accion=='todo'">
+                        <button type="button" class="btn btn-secondary me-3" (click)="filtrar()">Filtrar</button>
+                    </div>
+                    <div *ngIf="accion!='todo'&&(accion=='filtro'||accion=='email')">
+                        <button type="button" class="btn btn-secondary me-3" (click)="filtroPais()">Filtrar por
+                            pais
+                            origen/destino</button>
+                    </div>
+                    <div *ngIf="accion!='todo'&&(accion=='filtro'||accion=='pais')">
+                        <button type="button" class="btn btn-secondary me-3" (click)="filtroEmail()">Filtrar por
+                            email de
+                            persona</button>
+                    </div>
+                </div>
+            </nav>
+            <div class="row mt-3" *ngIf="accion=='pais'">
+                <div class="col-3">
+                    <div class="input-group">
+                        <span class="input-group-text">De</span>
+                        <select class="form-select" [(ngModel)]="monedaOrigen" name="to">
+                            <option *ngFor="let i of paises" name="to">{{i}}</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="input-group">
+                        <span class="input-group-text">A</span>
+                        <select class="form-select" [(ngModel)]="monedaDestino" name="to">
+                            <option *ngFor="let i of paises" name="to">{{i}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6" *ngIf="monedaDestino!=monedaOrigen&&monedaOrigen&&monedaDestino">
+                    <button class="btn btn-success" (click)="buscarTransaccionesPaises()">Buscar</button>
+                </div>
+
+            </div>
+            <div class="mt-3 row" *ngIf="accion=='email'">
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <span class="input-group-text">Email:</span>
+                        <select class="form-select" [(ngModel)]="email" name="email">
+                            <option *ngFor="let e of transacciones" name="email">{{e.emailCliente}}</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-3" *ngIf="email">
+                    <button class="btn btn-success" (click)="buscarTransaccionesEmail()">Buscar</button>
+                </div>
+
+            </div>
+            <div class="table-responsive">
+                <table class="table table table-dark table-striped-columns table table-success table-striped">
+                    <thead>
+                        <tr>
+
+                            <th scope="col">Email</th>
+                            <th scope="col">Moneda origen</th>
+                            <th scope="col">Moneda destino</th>
+                            <th scope="col">Cantidad origen</th>
+                            <th scope="col">Tasa de conversión</th>
+                            <th scope="col">Cantidad destino</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="accion=='todo'">
+                        <tr *ngFor="let t of transacciones">
+
+                            <td>{{t.emailCliente}}</td>
+                            <td>{{t.monedaOrigen}}</td>
+                            <td>{{t.monedaDestino}}</td>
+                            <td>{{t.cantidadOrigen}}</td>
+                            <td>{{t.tasaConversion}}</td>
+                            <td>{{t.cantidadDestino}}</td>
+
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="accion=='pais'">
+                        <tr *ngFor="let t of transaccionesPaises">
+
+                            <td>{{t.emailCliente}}</td>
+                            <td>{{t.monedaOrigen}}</td>
+                            <td>{{t.monedaDestino}}</td>
+                            <td>{{t.cantidadOrigen}}</td>
+                            <td>{{t.tasaConversion}}</td>
+                            <td>{{t.cantidadDestino}}</td>
+
+                        </tr>
+                    </tbody>
+
+                    <tbody *ngIf="accion=='email'">
+                        <tr *ngFor="let t of transaccionesEmails">
+
+                            <td>{{t.emailCliente}}</td>
+                            <td>{{t.monedaOrigen}}</td>
+                            <td>{{t.monedaDestino}}</td>
+                            <td>{{t.cantidadOrigen}}</td>
+                            <td>{{t.tasaConversion}}</td>
+                            <td>{{t.cantidadDestino}}</td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <app-conversor></app-conversor>
+        </div>
+    </div>
+
+
+</main>

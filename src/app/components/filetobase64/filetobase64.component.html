@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-md-10 mb-4">
+        <div class="form-outline">
+            <label class="form-label">Cargar portada</label>
+            <input class="form-control" type="file" (change)="onChange($event)" />
+            <div class="alert alert-danger">
+                <div>
+                    requerido
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 mb-4" *ngIf="base">
+        <div class="form-ouline">
+            <label class="mb-2">Subir?</label>
+            <div class="form-outline">
+                <button class="btn btn-primary" (click)="subirImage()">subir</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="base">
+    <div class="col-md-4 mb-4">
+        <img class="miniatura" [src]="base" alt="no soportado o no disponible" />
+        <ul>
+            <li>
+                Nombre:{{nombre}}
+            </li>
+            <li>
+                Tamaño:{{peso}}
+            </li>
+            <li>
+                Tipo:{{tipo}}
+            </li>
+
+        </ul>
+
+    </div>
+    <div class="col-md-8">
+        <textarea rows="10" name="imagen" [(ngModel)]="base"></textarea>
+    </div>
+</div>
