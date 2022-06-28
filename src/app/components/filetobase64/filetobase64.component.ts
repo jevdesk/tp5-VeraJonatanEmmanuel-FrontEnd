@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
 import { Imagen } from 'src/app/models/imagen';
 import { Libro } from 'src/app/models/libro';
-
+import { ClipboardService } from 'ngx-clipboard';
 @Component({
   selector: 'app-filetobase64',
   templateUrl: './filetobase64.component.html',
@@ -16,8 +16,9 @@ export class Filetobase64Component implements OnInit {
   peso: number = 0;
   tipo: string = '';
   base: string = '';
+  accion = true;
 
-  constructor() {
+  constructor(private clipboardApi: ClipboardService) {
     this.imagen = new Imagen();
   }
 
@@ -65,5 +66,9 @@ export class Filetobase64Component implements OnInit {
     this.imagen.base = this.base;
     //this.cd.markForCheck();
     console.log(this.imagen);
+  }
+  copyText() {
+    this.clipboardApi.copyFromContent(this.base);
+    this.accion = false;
   }
 }

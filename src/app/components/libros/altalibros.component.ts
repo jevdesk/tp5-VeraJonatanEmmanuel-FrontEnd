@@ -14,12 +14,13 @@ export class AltalibrosComponent implements OnInit {
   accion = '';
   libros: Array<Libro> = [];
   libro: Libro = new Libro();
-  imagen: Imagen = new Imagen();
+  //imagen: Imagen = new Imagen();
   libroCtrol = this.formBuilder.group({
     titulo: ['', [Validators.required]],
     descripcion: ['', [Validators.required]],
     destacado: ['', [Validators.required]],
     stock: ['', [Validators.required]],
+    imagen: ['', [Validators.required]],
   });
   constructor(
     private libroService: LibroService,
@@ -39,7 +40,7 @@ export class AltalibrosComponent implements OnInit {
   }
   altaLibro(id: string) {}
   guardarLibro() {
-    // this.libro.imagen = ;
+    this.libro = this.libroCtrol.value;
     console.log(this.libro);
     this.libroService.addLibro(this.libro).subscribe(
       (result) => {
@@ -71,5 +72,8 @@ export class AltalibrosComponent implements OnInit {
   }
   get stock() {
     return this.libroCtrol.get('stock') as FormControl;
+  }
+  get imagen() {
+    return this.libroCtrol.get('imagen') as FormControl;
   }
 }

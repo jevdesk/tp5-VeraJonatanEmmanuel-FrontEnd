@@ -22,7 +22,7 @@ import {
 } from '@angular/common/http';
 import { LibrolistaComponent } from './components/libros/librolista.component';
 import { Filetobase64Component } from './components/filetobase64/filetobase64.component';
-
+//import { ClipboardModule } from 'ngx-clipboard';
 import { FiltronamePipe } from './pipes/filtroname.pipe';
 
 @NgModule({

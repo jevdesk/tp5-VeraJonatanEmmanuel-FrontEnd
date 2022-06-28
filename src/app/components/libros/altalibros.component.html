@@ -34,6 +34,20 @@
                     </div>
                     <app-filetobase64></app-filetobase64>
                     <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label">Imagen en base64</label>
+                                <textarea type="text" class="form-control" formControlName="imagen"></textarea>
+                                <div class="alert alert-danger col-12"
+                                    *ngIf="imagen.invalid && (imagen.dirty || imagen.touched)">
+                                    <div *ngIf="imagen.errors?.['required']">
+                                        Es requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6 mb-4">
                             <div class="form-outline">
                                 <label class="form-label">Destacado</label>
