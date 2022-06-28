@@ -3,7 +3,8 @@
         <div class="col-md-10 mb-4">
             <div class="form-outline">
                 <label class="form-label">Cargar portada</label>
-                <input class="form-control" type="file" (change)="onChange($event)" />
+                <input class="form-control" type="file" (change)="onChange($event)"
+                    accept="image/x-png,image/gif,image/jpeg" />
             </div>
         </div>
         <div class="col-md-2 mb-4" *ngIf="base">
