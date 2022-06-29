@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { Pasaje } from 'src/app/models/pasaje';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Persona } from 'src/app/models/persona';
@@ -26,25 +26,12 @@ export class VentapasajeComponent implements OnInit {
   MAXPRECIO = 1000000;
 
   categorialist = ['', 'Menor', 'Adulto', 'Jubilado'];
-  pasajeCtrl = this.fb.group({
-    emailPasajero: ['', [Validators.required]],
-    categoriaPasajero: ['', [Validators.required]],
-    precioPasaje: [
-      '',
-      [
-        Validators.required,
-        Validators.min(this.MINPRECIO),
-        Validators.max(this.MAXPRECIO),
-      ],
-    ],
-  });
 
   constructor(
     private pasajeService: PasajeService,
     private personaService: PersonaService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private activatedRoute: ActivatedRoute
   ) {
     this.persona = new Persona();
     this.pasaje = new Pasaje();
@@ -53,8 +40,9 @@ export class VentapasajeComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id'] == '0' || !params['id']) {
-        this.accion == 'new';
-
+        this.accion = 'new';
+        console.log('hola gente');
+        console.log(this.accion);
         this.iniciarOjetos();
         this.cargarPersonas();
       } else {
@@ -107,6 +95,7 @@ export class VentapasajeComponent implements OnInit {
         if (result.status == '1') {
           //toast
           alert(result.msg);
+          this.irLista();
         }
       },
       (error) => {
@@ -116,20 +105,15 @@ export class VentapasajeComponent implements OnInit {
       }
     );
   }
-  guardarCachePasaje() {
-    this.pasaje.categoriaPasajero = this.pasajeCtrl.value.categoriaPasajero;
-    this.pasaje.precioPasaje = this.pasajeCtrl.value.precioPasaje;
+
+  enviarPasaje(pasaje: NgForm) {
     this.pasaje.fechaCompra = new Date();
-    this.pasaje.pasajero = this.persona;
-    this.buscarPersona(this.pasajeCtrl.value.emailPasajero);
-    this.enviarPasaje();
-  }
-  enviarPasaje() {
     this.pasajeService.addPasaje(this.pasaje).subscribe(
       (result) => {
         if (result.status == '1') {
           //toast
           alert(result.msg);
+          this.irLista();
         }
       },
       (error) => {
@@ -153,39 +137,27 @@ export class VentapasajeComponent implements OnInit {
     this.router.navigate(['pasajes-vendidos']);
   }
 
-  cuantoDescuento(cat: string, precio: number) {
-    if (precio >= this.MINPRECIO) {
+  cuantoDescuento(cat: String, precio: Number) {
+    if (this.pasaje.precioPasaje) {
       if ('Menor' == cat) {
-        this.descuento = precio - precio * this.MENOR;
-        this.porcentaje = this.MENOR * 100;
+        this.porcentaje = this.MENOR;
+        this.descuento =
+          this.pasaje.precioPasaje - this.pasaje.precioPasaje * this.MENOR;
       } else {
         if ('Jubilado' == cat) {
-          this.descuento = precio - precio * this.JUBILADO;
-          this.porcentaje = this.JUBILADO * 100;
+          this.porcentaje = this.JUBILADO;
+          this.descuento =
+            this.pasaje.precioPasaje - this.pasaje.precioPasaje * this.JUBILADO;
         } else {
-          this.descuento = precio - precio * this.ADULTO;
-          this.porcentaje = this.ADULTO * 100;
+          this.porcentaje = this.ADULTO;
+          this.descuento =
+            this.pasaje.precioPasaje - this.pasaje.precioPasaje * this.ADULTO;
         }
       }
     }
   }
-  //variables requeridas por formgroup
-  get precioPasaje() {
-    return this.pasajeCtrl.get('precioPasaje') as FormControl;
-  }
-  get categoriaPasajero() {
-    return this.pasajeCtrl.get('categoriaPasajero') as FormControl;
-  }
-  get emailPasajero() {
-    return this.pasajeCtrl.get('emailPasajero') as FormControl;
-  }
 
-  //botones
-
-  vedePasaje() {}
-  actualizar() {}
-  cerrar() {}
-  onReset(): void {
-    this.pasajeCtrl.reset();
+  reiniciar() {
+    window.location.reload();
   }
 }
