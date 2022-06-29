@@ -34,8 +34,9 @@
                                 <td>{{item.pasajero.apellido}} {{item.pasajero.nombre}}</td>
                                 <td>{{item.pasajero.nro_documento}}</td>
                                 <td>{{item.categoriaPasajero}}</td>
-                                <td>{{item.precioPasaje}}</td>
-                                <td>{{item.fechaCompra}}</td>
+                                <td>{{cuantoDescuento(item.categoriaPasajero,item.precioPasaje)|currency:'CAD':'symbol-narrow'}}
+                                </td>
+                                <td>{{item.fechaCompra| date:'short'}}</td>
                                 <td>
                                     <button class="btn btn-warning" (click)="modificarPasaje(item)">Editar</button>
                                     <button class="btn btn-danger" (click)="borrarPasaje(item)">borrar</button>
@@ -44,8 +45,9 @@
 
                         </tbody>
                     </table>
-                    <div class="m-1 p-2 text-center" *ngIf="pasajes.length>5">
-                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <div class="m-1 p-2 text-center d-fex justify-content-center" *ngIf="pasajes.length>5">
+                        <div class="btn-group d-fex justify-content-center" role="group"
+                            aria-label="Basic outlined example">
                             <button type="button" class="btn btn-outline-primary" (click)="anterior()">anterior</button>
                             <button type="button" class="btn btn-outline-primary"
                                 (click)="siguiente()">siguiente</button>

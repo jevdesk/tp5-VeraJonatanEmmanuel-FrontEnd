@@ -36,9 +36,22 @@ export class PasajevendidosComponent implements OnInit {
       (error) => {}
     );
   }
-
+  cuantoDescuento(cat: String, precio: number) {
+    if ('Menor' == cat) {
+      return precio - precio * 0.25;
+    } else {
+      if ('Jubilado' == cat) {
+        return precio - precio * 0.5;
+      } else {
+        return precio - precio * 0;
+      }
+    }
+  }
   irFormulario() {
     this.router.navigate(['ventapasaje', 0]);
+  }
+  reiniciar() {
+    window.location.reload();
   }
   modificarPasaje(pasaje: Pasaje) {
     this.router.navigate(['ventapasaje', pasaje._id]);
@@ -48,7 +61,7 @@ export class PasajevendidosComponent implements OnInit {
       (result) => {
         if (result.status == '1') {
           alert(result.msg);
-          this.router.navigate(['pasajes-vendidos']);
+          this.reiniciar();
         }
       },
       (error) => {}

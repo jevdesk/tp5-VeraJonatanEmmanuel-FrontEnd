@@ -40,8 +40,9 @@ export class VentapasajeComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id'] == '0' || !params['id']) {
-        this.accion == 'new';
-
+        this.accion = 'new';
+        console.log('hola gente');
+        console.log(this.accion);
         this.iniciarOjetos();
         this.cargarPersonas();
       } else {
@@ -94,6 +95,7 @@ export class VentapasajeComponent implements OnInit {
         if (result.status == '1') {
           //toast
           alert(result.msg);
+          this.irLista();
         }
       },
       (error) => {
@@ -103,17 +105,15 @@ export class VentapasajeComponent implements OnInit {
       }
     );
   }
-  guardarCachePasaje() {
-    const email = 'email';
-    this.buscarPersona(email);
-    this.enviarPasaje();
-  }
-  enviarPasaje() {
+
+  enviarPasaje(pasaje: NgForm) {
+    this.pasaje.fechaCompra = new Date();
     this.pasajeService.addPasaje(this.pasaje).subscribe(
       (result) => {
         if (result.status == '1') {
           //toast
           alert(result.msg);
+          this.irLista();
         }
       },
       (error) => {
@@ -138,31 +138,26 @@ export class VentapasajeComponent implements OnInit {
   }
 
   cuantoDescuento(cat: String, precio: Number) {
-    if (this.pasaje.precioPasaje >= this.MINPRECIO) {
+    if (this.pasaje.precioPasaje) {
       if ('Menor' == cat) {
+        this.porcentaje = this.MENOR;
         this.descuento =
           this.pasaje.precioPasaje - this.pasaje.precioPasaje * this.MENOR;
-        this.porcentaje = this.MENOR * 100;
       } else {
         if ('Jubilado' == cat) {
+          this.porcentaje = this.JUBILADO;
           this.descuento =
             this.pasaje.precioPasaje - this.pasaje.precioPasaje * this.JUBILADO;
-          this.porcentaje = this.JUBILADO * 100;
         } else {
+          this.porcentaje = this.ADULTO;
           this.descuento =
             this.pasaje.precioPasaje - this.pasaje.precioPasaje * this.ADULTO;
-          this.porcentaje = this.ADULTO * 100;
         }
       }
     }
   }
 
-  //botones
-
-  vedePasaje() {}
-  actualizar() {}
-  cerrar() {}
-  // onReset(): void {
-  //  this.pasajeCtrl.reset();
-  //}
+  reiniciar() {
+    window.location.reload();
+  }
 }

@@ -6,22 +6,26 @@
                     <button type="button" class="btn btn-outline-primary" (click)="irLista()">Lista</button>
                 </div>
                 <div class="card-body p-4 p-md-5 ">
+                    <div class="mt-4 d-flex justify-content-end" *ngIf="accion=='new'">
+                        <input class="btn btn-secondary" type="submit" value="Reset" (click)="reiniciar()" />
+                    </div>
                     <h3 class="mb-4 pb-2 text-center" *ngIf="accion=='new'">Registrar compra</h3>
                     <h3 class="mb-4 pb-2 text-center" *ngIf="accion=='update'">Actualizar compra</h3>
+
                     <form #pasajeForm="ngForm" class="">
                         <div class="row d-fex justify-content-center">
                             <div class="col-md-6 mb-4">
                                 <div class="form-outline">
                                     <label id="idPersona" class="form-label">Email</label>
-                                    <select class="form-select" id="idPersona" required [(ngModel)]="persona"
+                                    <select class="form-select" id="idPersona" required [(ngModel)]="pasaje.pasajero"
                                         name="persona" #per="ngModel" required maxlength="30" minlength="2">
-                                        <option name="persona" *ngFor="let item of personas" [ngValue]="item">
+                                        <option *ngFor="let item of personas" [ngValue]="item">
                                             Nombre: {{item.apellido}}, {{item.nombre}}; Correo: {{item.email}}
                                         </option>
                                     </select>
                                     <div class="alert alert-danger" *ngIf="per.invalid && (per.dirty || per.touched)">
                                         <div>
-                                            email es requerido
+                                            Pasajero es requerido
                                         </div>
                                     </div>
                                 </div>
@@ -49,19 +53,13 @@
                             <div class="col-md-6 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label">Precio del Pasaje</label>
-                                    <input type="number" id="precioPasaje" [(ngModel)]="pasaje.precioPasaje"
-                                        name="precioPasaje" #prec="ngModel" />
+                                    <input class="form-control" type="number" id="precioPasaje"
+                                        [(ngModel)]="pasaje.precioPasaje" name="precioPasaje" #prec="ngModel"
+                                        required />
                                     <div class="alert alert-danger"
                                         *ngIf="prec.invalid && (prec.dirty || prec.touched)">
                                         <div *ngIf="prec.errors?.['required']">
-                                            precio desde {{MINPRECIO|currency:'CAD':'symbol-narrow'}} a
-                                            {{MAXPRECIO|currency:'CAD':'symbol-narrow'}}
-                                        </div>
-                                        <div *ngIf="prec.errors?.['min']">
-                                            El mínimo precio es de: {{MINPRECIO|currency:'CAD':'symbol-narrow'}}
-                                        </div>
-                                        <div *ngIf="prec.errors?.['max']">
-                                            El máximo precio es de: {{MAXPRECIO|currency:'CAD':'symbol-narrow'}}
+                                            precio tiene que ser número y es requerido
                                         </div>
 
                                     </div>
@@ -69,20 +67,28 @@
                                 <div *ngIf="pasaje.categoriaPasajero &&pasaje.precioPasaje">
                                     <label class="form-label" for="firstName">Descuento de
                                         {{cuantoDescuento(pasaje.categoriaPasajero,pasaje.precioPasaje)}}
-                                        {{porcentaje}}%, total a
+                                        {{ porcentaje| percent}}, total a
                                         pagar:
                                         {{descuento|currency:'CAD':'symbol-narrow'}}</label>
                                 </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row d-fex justify-content-center">
+                            <div class="col-md-6 mb-4">
                                 <div class="mt-4" *ngIf="accion=='new'">
-                                    <input class="btn btn-primary btn-lg" type="submit" value="Registrar compra"
-                                        (click)="guardarCachePasaje()" />
+                                    <input class="btn btn-success" type="submit" value="Registrar compra"
+                                        (click)="enviarPasaje(pasajeForm)" [disabled]="!pasajeForm.form.valid" />
                                 </div>
                                 <div class="mt-4" *ngIf="accion=='update'">
-                                    <input class="btn btn-primary btn-lg" type="submit" value="Actualizar compra"
-                                        (click)="actualizarPasaje()" />
+                                    <input class="btn btn-success" type="submit" value="Actualizar compra"
+                                        (click)="actualizarPasaje()" [disabled]="!pasajeForm.form.valid" />
                                 </div>
+
                             </div>
                         </div>
+
                     </form>
                 </div>
 
