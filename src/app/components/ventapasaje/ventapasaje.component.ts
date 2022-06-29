@@ -54,7 +54,7 @@ export class VentapasajeComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       if (params['id'] == '0' || !params['id']) {
         this.accion == 'new';
-        //console.log(this.accion);
+
         this.iniciarOjetos();
         this.cargarPersonas();
       } else {
@@ -62,7 +62,7 @@ export class VentapasajeComponent implements OnInit {
         this.iniciarOjetos();
         //this.cargarPersonas();
         this.cargarPasaje(params['id']);
-        console.log(this.accion);
+
         console.log(params['id']);
       }
     });

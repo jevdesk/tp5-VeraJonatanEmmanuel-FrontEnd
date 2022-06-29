@@ -6,7 +6,8 @@
                     <button type="button" class="btn btn-outline-primary" (click)="irLista()">Lista</button>
                 </div>
                 <div class="card-body p-4 p-md-5 ">
-                    <h3 class="mb-4 pb-2 text-center">Registra tu compra</h3>
+                    <h3 class="mb-4 pb-2 text-center" *ngIf="accion=='new'">Registrar compra</h3>
+                    <h3 class="mb-4 pb-2 text-center" *ngIf="accion=='update'">Actualizar compra</h3>
                     <form [formGroup]="pasajeCtrl" class="">
                         <div class="row d-fex justify-content-center">
                             <div class="col-md-6 mb-4">
@@ -15,7 +16,7 @@
                                     <select class="form-select" aria-label="Default select example"
                                         formControlName="emailPasajero">
                                         <option name="emailPasajero" *ngFor="let item of personas">
-                                            {{item.email}}
+                                            {{item.email}}, {{item.apellido}}, {{item.nombre}}
                                         </option>
                                     </select>
                                     <div class="alert alert-danger"
